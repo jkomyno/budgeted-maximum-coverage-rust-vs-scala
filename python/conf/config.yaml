@@ -1,0 +1,14 @@
+name: maximum-budgeted-cover
+
+defaults:
+  - _self_
+
+  - size: 'small'
+
+  # run multiple configurations in parallel
+  - override hydra/launcher: joblib
+
+selected:
+
+  # set to 1 to print debug info, 0 otherwise
+  verbose: 1

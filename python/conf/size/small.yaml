@@ -1,0 +1,21 @@
+name: 'small'
+
+n: 100
+
+sizes:
+  - m: 1000
+    S_cardinality_bounds:
+      - 100
+      - 500
+  - m: 1000
+    S_cardinality_bounds:
+      - 200
+      - 500
+  - m: 2000
+    S_cardinality_bounds:
+      - 100
+      - 500
+  - m: 5000
+    S_cardinality_bounds:
+      - 200
+      - 500
