@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 from typing import List, Tuple, Set, FrozenSet
 from ...datatypes import CostSet, WeightedItem
-
+from ...common import snd
 
 class CostSetHelper(object):
     @staticmethod
@@ -32,7 +32,10 @@ class CostSetHelper(object):
             subset = rng.choice(V, cardinality, replace=False)
             S.add(frozenset(subset))
 
-        return [
-            CostSet(s=weighted_items, cost=rng.integers(*cost_range, endpoint=True))
+        return list(map(snd, (
+            (
+                weight_in_set := sum(wi.weight for wi in weighted_items),
+                CostSet(s=weighted_items, cost=weight_in_set * rng.integers(*cost_range, endpoint=True))
+            )
             for weighted_items in S
-        ]
+        )))

@@ -18,25 +18,25 @@ def create_S(m: int,
     :param m: number of priced sets containing elements of n, forming set S
     :param V: list of weighted items
     :param S_cardinality_bounds: lower and upper bounds of the cardinality of each subset of S,
-           expressed in per-mil values of n.
-           E.g., if n=10000 and S_cardinality_bounds=(5, 25), the smallest subset of S will have
-           at least 50 = (n * 0.005) elements, whereas the greatest subset of S will have at most
-           250 = (n * 0.0025) elements.
+           expressed in percentages values of n.
+           E.g., if n=1000 and S_cardinality_bounds=(5, 25), the smallest subset of S will have
+           at least 50 = (n * 0.05) elements, whereas the greatest subset of S will have at most
+           250 = (n * 0.025) elements.
     """
     lower_bound, upper_bound = S_cardinality_bounds
 
-    if lower_bound < 1 or lower_bound > 1000 \
-            or upper_bound < 1 or upper_bound > 1000:
-        raise AssertionError(f'the bounds of cardinality_permillage should be between 1 and 1000')
+    if lower_bound < 1 or lower_bound > 100 \
+            or upper_bound < 1 or upper_bound > 100:
+        raise AssertionError(f'the bounds of cardinality_permillage should be between 1 and 100')
 
     if lower_bound > upper_bound:
         raise AssertionError(f'the bounds of cardinality_permillage should be monotone')
 
     n = len(V)
-    cost_range = (1, 100)
+    cost_range = (1, 10)
 
-    cardinality_range_min = math.ceil(n * lower_bound / 1000)
-    cardinality_range_max = math.ceil(n * upper_bound / 1000)
+    cardinality_range_min = math.ceil(n * lower_bound / 100)
+    cardinality_range_max = math.ceil(n * upper_bound / 100)
     cardinality_range = (cardinality_range_min, cardinality_range_max)
 
     # maximum_allowed_m is the size of the powerset of the ground set restricted to the given cardinality bounds

@@ -5,17 +5,17 @@ n: 1000
 sizes:
   - m: 10000
     S_cardinality_bounds:
-      - 50
-      - 250
+      - 5
+      - 25
   - m: 10000
     S_cardinality_bounds:
-      - 100
-      - 250
+      - 10
+      - 25
   - m: 20000
     S_cardinality_bounds:
-      - 50
-      - 250
+      - 5
+      - 25
   - m: 5000
     S_cardinality_bounds:
-      - 50
-      - 250
+      - 5
+      - 25
