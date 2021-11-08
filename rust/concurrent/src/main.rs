@@ -38,8 +38,6 @@ fn main() {
         Err(err) => panic!("Cannot read cost sets: {}", err),
     };
 
-    println!("Files read successfully");
-
     // best possible objective reachable by the maximizer algorithm
     let total_weight = utils::total_weight(&v);
     println!("Weight of v: {:?}", total_weight);
@@ -57,5 +55,4 @@ fn main() {
     // the elements covered by S' is maximized.
     let sol = shuffle_greedy(s, budget, args.k, args.t);
     println!("Objective: {:?}; Cost: {:?}; Cardinality: {:?}", sol.objective, sol.cost, sol.g.len());
-    println!("{:?}", sol.g);
 }

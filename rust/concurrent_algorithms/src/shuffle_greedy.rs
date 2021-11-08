@@ -1,7 +1,6 @@
 use datatypes::IndexCostSet;
 use libs::rayon;
 use libs::rayon::prelude::*;
-use libs::rand_xoshiro::rand_core::SeedableRng;
 use libs::rand_xoshiro::Xoshiro256PlusPlus;
 use algorithms::ShuffleMasterSolution;
 use datatypes::CostSet;

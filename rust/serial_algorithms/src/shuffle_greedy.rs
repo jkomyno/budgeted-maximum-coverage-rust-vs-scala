@@ -1,7 +1,6 @@
 use algorithms::ShuffleMasterSolution;
 use datatypes::{CostSet, IndexCostSet};
 use local_nodes::{LocalNode, ShuffleGreedyNode, ShuffleSolution};
-use libs::rand_xoshiro::rand_core::SeedableRng;
 use libs::rand_xoshiro::Xoshiro256PlusPlus;
 
 pub fn shuffle_greedy(

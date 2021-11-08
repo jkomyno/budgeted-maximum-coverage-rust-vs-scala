@@ -1,6 +1,5 @@
 use datatypes::IndexCostSet;
 use libs::rand::seq::SliceRandom;  // provides random mutation and sampling methods
-use libs::rand_xoshiro::rand_core::SeedableRng;
 use libs::rand_xoshiro::Xoshiro256PlusPlus;
 
 use crate::local_node::LocalNode;
@@ -24,7 +23,6 @@ impl ShuffleGreedyNode {
         local_indexed_s.sort();
 
         let _rng = rng.clone();
-        println!("_rng: {:?}", _rng);
 
         ShuffleGreedyNode {
             local_indexed_s,

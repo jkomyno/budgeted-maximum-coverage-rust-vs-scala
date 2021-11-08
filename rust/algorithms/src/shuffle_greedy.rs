@@ -53,7 +53,7 @@ pub fn shuffle_greedy(
         // split the budget in k parts dependent on local_budget_multipliers
         let local_budgets =
             utils::split_budget(budget, &local_budget_multipliers);
-        println!("local_budgets: {:?}", local_budgets);
+        // println!("local_budgets: {:?}", local_budgets);
 
         // compute k local solutions
         let local_results: Vec<ShuffleSolution> = maximizer(&mut local_nodes, &local_budgets);
