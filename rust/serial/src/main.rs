@@ -9,11 +9,11 @@ struct Cli {
     k: usize,
 
     /// weighted items in CSV format
-    #[structopt(short = "v")]
+    #[structopt(short = "v", long)]
     weighted_items_csv: String,
 
     /// cost sets in CSV format
-    #[structopt(short = "s")]
+    #[structopt(short = "s", long)]
     cost_sets_csv: String,
 
     /// budget multiplier
