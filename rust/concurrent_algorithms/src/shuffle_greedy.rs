@@ -14,51 +14,58 @@ pub fn shuffle_greedy(
     max_t: u64,
 ) -> ShuffleMasterSolution {
 
-    rayon::ThreadPoolBuilder::new()
+    let thread_pool = rayon::ThreadPoolBuilder::new()
         .num_threads(k)
-        .build_global()
+        .build()
         .unwrap();
 
     // each set in s is assigned a distinct index
     let s_index: Vec<IndexCostSet> = s
-        .into_iter()
+        .into_par_iter()
         .enumerate()
-        .par_bridge()
         .map(|(i, cs)| IndexCostSet(cs, i))
         .collect();
-
-
-    // serial initialization of k local nodes
+    
     let initializer = |s_index: &[IndexCostSet], rng: &Xoshiro256PlusPlus| -> Vec<ShuffleGreedyNode> {
         utils::partition(&s_index, k)
             .map(|indexed_cs| ShuffleGreedyNode::new(indexed_cs.to_vec(), &rng))
             .collect()
     };
 
-    // parallel initialization of k local nodes
+    // concurrent initialization of k local nodes (significantly slower than the sequential one)
     // let initializer = |s_index: &[IndexCostSet], rng: &Xoshiro256PlusPlus| -> Vec<ShuffleGreedyNode> {
-    //     utils::partition(&s_index, k)
-    //         .par_bridge()
-    //         .map(|indexed_cs| ShuffleGreedyNode::new(indexed_cs.to_vec(), &rng))
-    //         .collect()
+    //     thread_pool.install(|| {
+    //         utils::partition(&s_index, k)
+    //             .par_bridge()
+    //             .map(|indexed_cs| ShuffleGreedyNode::new(indexed_cs.to_vec(), &rng))
+    //             .collect()
+    //     })
     // };
 
-    let maximizer = |local_nodes: &mut [ShuffleGreedyNode], local_budgets: &[u64]| -> Vec<ShuffleSolution> {
-        local_nodes
-            .iter_mut()
-            .zip(local_budgets)
-            .par_bridge()
-            .map(|(node, local_budget)| {
-                node.maximize(*local_budget)
-            })
-            .collect::<Vec<_>>()
+    let maximizer = |local_nodes: &[ShuffleGreedyNode], local_budgets: &[u64]| -> Vec<ShuffleSolution> {
+        thread_pool.install(|| {
+            local_nodes
+                .par_iter()
+                .zip(local_budgets)
+                .map(|(node, local_budget)| {
+                    node.maximize(*local_budget)
+                })
+                .collect::<Vec<_>>()
+        })
     };
+
+    // serial shuffler function
+    // let shuffler = |local_nodes: &mut [ShuffleGreedyNode]| -> () {
+    //     local_nodes.iter_mut().for_each(|node| {
+    //         node.shuffle();
+    //     });
+    // };
 
     // concurrent shuffler function
     let shuffler = |local_nodes: &mut [ShuffleGreedyNode]| -> () {
-        rayon::in_place_scope(|s| {
-            local_nodes.iter_mut().for_each(|node| {
-                s.spawn(move |_| node.shuffle());
+        thread_pool.install(|| {
+            local_nodes.par_iter_mut().for_each(|node| {
+                node.shuffle();
             });
         });
     };

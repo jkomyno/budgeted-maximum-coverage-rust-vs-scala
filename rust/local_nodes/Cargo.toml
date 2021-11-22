@@ -8,3 +8,4 @@ edition = "2021"
 [dependencies]
 libs = { path = "../libs" }
 datatypes = { path = "../datatypes" }
+utils = { path = "../utils" }

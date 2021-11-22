@@ -25,11 +25,11 @@ pub fn shuffle_greedy(
 
     // serial maximizer function
     fn maximizer(
-        local_nodes: &mut [ShuffleGreedyNode],
+        local_nodes: &[ShuffleGreedyNode],
         local_budgets: &[u64],
     ) -> Vec<ShuffleSolution> {
         local_nodes
-            .iter_mut()
+            .iter()
             .zip(local_budgets)
             .map(|(node, local_budget)| node.maximize(*local_budget))
             .collect()

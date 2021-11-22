@@ -3,5 +3,5 @@ pub trait LocalNode<Solution> {
     fn shuffle(&mut self) -> ();
 
     /// Approximately maximize the objective function in the local node.
-    fn maximize(&mut self, local_budget: u64) -> Solution;
+    fn maximize(&self, local_budget: u64) -> Solution;
 }

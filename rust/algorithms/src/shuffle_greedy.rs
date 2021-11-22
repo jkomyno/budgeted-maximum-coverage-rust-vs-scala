@@ -1,3 +1,4 @@
+use std::collections::HashSet;
 use datatypes::{CostSet, IndexCostSet};
 use local_nodes::{ShuffleGreedyNode, ShuffleSolution};
 use std::{cmp::max, collections::HashMap};
@@ -26,7 +27,7 @@ pub fn shuffle_greedy(
     k: usize,
     max_t: u64,
     initializer: impl FnOnce(&[IndexCostSet], &Xoshiro256PlusPlus) -> Vec<ShuffleGreedyNode>,
-    maximizer: impl Fn(&mut [ShuffleGreedyNode], &[u64]) -> Vec<ShuffleSolution>,
+    maximizer: impl Fn(&[ShuffleGreedyNode], &[u64]) -> Vec<ShuffleSolution>,
     shuffler: impl Fn(&mut [ShuffleGreedyNode]) -> (),
 ) -> ShuffleMasterSolution {
     // HashMap to retrieve the original CostSet from an index in s_index
@@ -56,7 +57,7 @@ pub fn shuffle_greedy(
         // println!("local_budgets: {:?}", local_budgets);
 
         // compute k local solutions
-        let local_results: Vec<ShuffleSolution> = maximizer(&mut local_nodes, &local_budgets);
+        let local_results: Vec<ShuffleSolution> = maximizer(&local_nodes, &local_budgets);
 
         let local_cost: u64 = local_results.iter().map(|sol| sol.cost).sum();
         // println!("local_cost: {:?}", local_cost);
@@ -70,7 +71,13 @@ pub fn shuffle_greedy(
             .flat_map(|sol| sol.g.iter().map(|j| index_to_cost_set[j]));
 
         // sum of weights of the distinct items found in each of the local solutions
-        let curr_solution_objective = utils::compute_objective(curr_selection);
+        let curr_solution_objective = curr_selection
+            .fold(HashSet::new(), |mut acc, cs| {
+                acc.extend(cs.s.iter());
+                acc
+            })
+            .iter().map(|wi| wi.weight).sum();
+
         // println!("curr_solution_objective: {:?}", curr_solution_objective);
 
         // adjust budgets for the next iteration

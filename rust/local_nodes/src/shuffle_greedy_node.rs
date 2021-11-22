@@ -4,7 +4,6 @@ use libs::rand_xoshiro::Xoshiro256PlusPlus;
 
 use crate::local_node::LocalNode;
 
-// TODO: derive derive_getters
 pub struct ShuffleSolution {
     pub g: Vec<usize>,
     pub spare_budget: u64,
@@ -40,7 +39,7 @@ impl LocalNode<ShuffleSolution> for ShuffleGreedyNode {
     /// Find a collection of sets g \subseteq local_indexed_s such that the total cost of elements
     /// in g does not exceed the given budget local_budget, and that the total weight of elements
     /// covered by g is approximately maximized.
-    fn maximize(&mut self, local_budget: u64) -> ShuffleSolution {
+    fn maximize(&self, local_budget: u64) -> ShuffleSolution {
         let mut g: Vec<usize> = Vec::new();
         let mut spare_budget = local_budget;
         let mut weight: u64 = 0;
@@ -62,10 +61,11 @@ impl LocalNode<ShuffleSolution> for ShuffleGreedyNode {
             }
         }
 
+        let s = g;
         // println!("budget: {:?}; weight: {:?}; cost: {:?}\n", local_budget, weight, cost);
 
         ShuffleSolution {
-            g,
+            g: s,
             spare_budget,
             weight,
             cost,
