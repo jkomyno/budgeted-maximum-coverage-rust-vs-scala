@@ -11,6 +11,11 @@ Install third-party dependencies and compile:
 sbt compile
 ```
 
+## Run concurrent example
+
 ```bash
-sbt "run -v ../data/weighted-items/V-n_1000.csv -s ../data/cost-sets/S-n_1000-m_20000-k_5_25.csv -t 8 -k 4"
+sbt "run -v ../data/weighted-items/V-n_1000.csv \
+  -s ../data/cost-sets/S-n_1000-m_20000-k_5_25.csv \
+  -t 2 \
+  -k 2"
 ```
