@@ -1,7 +1,7 @@
 # Budgeted Maximum Coverage (Scala)
 
 This project contains serial and parallel implementations of the Budgeted Maximum Coverage problem
-written in Scala 3.1.0.
+written in Scala 3.0.2.
 
 ## Initialize project
 
