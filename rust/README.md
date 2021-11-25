@@ -21,7 +21,7 @@ cargo build --release
 ./target/release/concurrent --weighted-items-csv ../data/weighted-items/V-n_1000.csv \
   --cost-sets-csv ../data/cost-sets/S-n_1000-m_20000-k_5_25.csv \
   -k 8 \
-  -t 128 \
+  -t 64 \
   -b 10
 ```
 
@@ -35,6 +35,6 @@ cargo build --release
 ./target/release/serial --weighted-items-csv ../data/weighted-items/V-n_1000.csv \
   --cost-sets-csv ../data/cost-sets/S-n_1000-m_20000-k_5_25.csv \
   -k 8 \
-  -t 128 \
+  -t 64 \
   -b 10
 ```
